@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Compra-Venta</title>
+    <link rel="stylesheet" href="estilos.css">
+    <form action="procesar_formulario.php" method="post">
+
+    <script>
+        function calcularTotal() {
+            const cantidad = document.getElementsByName("cantidad")[0].value;
+            const precioUnitario = document.getElementsByName("precio_unitario")[0].value;
+            const subtotal = cantidad * precioUnitario;
+            const iva = subtotal * 0.16;
+            const total = subtotal + iva;
+
+            document.getElementsByName("subtotal")[0].value = subtotal.toFixed(2);
+            document.getElementsByName("iva")[0].value = iva.toFixed(2);
+            document.getElementsByName("total")[0].value = total.toFixed(2);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Formulario de Compra-Venta</h2>
+        <form action="procesar_formulario.php" method="post">
+            <div class="form-grid">
+                <!-- Información General del Cliente -->
+                <label for="nombre_cliente">Nombre del cliente:</label>
+                <input type="text" id="nombre_cliente" name="nombre_cliente" maxlength="100" required placeholder="Nombre completo">
+
+                <label for="representante_ventas">Representante de ventas:</label>
+                <input type="text" id="representante_ventas" name="representante_ventas" maxlength="100" placeholder="Opcional">
+
+                <label for="contacto">Contacto (Teléfono/Correo):</label>
+                <input type="text" id="contacto" name="contacto" maxlength="50" pattern="^(\+?\d{1,3}[- ]?)?\d{10}$|^[^@\s]+@[^@\s]+\.[^@\s]+$" title="Ingresa un número de 10 dígitos o un correo válido" required placeholder="ejemplo@correo.com / 5512345678">
+
+                <label for="domicilio">Domicilio:</label>
+                <input type="text" id="domicilio" name="domicilio" maxlength="200" required placeholder="Dirección completa">
+
+                <label for="rfc">RFC:</label>
+                <input type="text" id="rfc" name="rfc" maxlength="13" pattern="[A-ZÑ&]{3,4}[0-9]{6}[A-Z0-9]{3}" title="Ingresa un RFC válido (12 o 13 caracteres)" required placeholder="Ej. ABCD123456XYZ">
+
+                <label for="metodo_pago">Método de Pago:</label>
+                <select id="metodo_pago" name="metodo_pago" required>
+                    <option value="" disabled selected>Selecciona</option>
+                    <option value="transferencia">Transferencia Bancaria</option>
+                    <option value="tarjeta">Tarjeta de Crédito/Débito</option>
+                    <option value="efectivo">Efectivo</option>
+                </select>
+
+                <!-- Información del Pedido -->
+                <label for="numero_pedido">Número de pedido:</label>
+                <input type="text" id="numero_pedido" name="numero_pedido" maxlength="20" required placeholder="Ej. ORD-2024-001">
+
+                <label for="fecha_solicitud">Fecha de solicitud:</label>
+                <input type="date" id="fecha_solicitud" name="fecha_solicitud" max="2024-12-31" required>
+
+                <label for="fecha_entrega">Fecha de entrega estimada:</label>
+                <input type="date" id="fecha_entrega" name="fecha_entrega" min="2024-01-01" required>
+
+                <label for="direccion_entrega">Dirección de entrega:</label>
+                <input type="text" id="direccion_entrega" name="direccion_entrega" maxlength="200" required placeholder="Dirección completa">
+
+                <!-- Detalles del Producto -->
+                <label for="producto">Producto:</label>
+                <input type="text" id="producto" name="producto" maxlength="100" required placeholder="Nombre del producto">
+
+                <label for="descripcion_producto">Descripción:</label>
+                <input type="text" id="descripcion_producto" name="descripcion_producto" maxlength="255" placeholder="Opcional">
+
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" id="cantidad" name="cantidad" min="1" max="1000" required oninput="calcularTotal()">
+
+                <label for="precio_unitario">Precio Unitario:</label>
+                <input type="number" id="precio_unitario" name="precio_unitario" step="0.01" min="1" max="10000" required oninput="calcularTotal()">
+
+                <!-- Totales -->
+                <label for="subtotal">Subtotal:</label>
+                <input type="number" id="subtotal" name="subtotal" step="0.01" readonly>
+
+                <label for="iva">IVA (16%):</label>
+                <input type="number" id="iva" name="iva" step="0.01" readonly>
+
+                <label for="total">Total:</label>
+                <input type="number" id="total" name="total" step="0.01" readonly>
+
+                <input type="submit" value="Enviar">
+            </div>
+        </form>
+    </div>
+</body>
+</html>
